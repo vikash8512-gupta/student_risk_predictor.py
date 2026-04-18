@@ -1,2 +1,60 @@
-# Auto detect text files and perform LF normalization
+# 🎓 Student Risk Predictor (Single File Project)
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+# =========================
+# 📊 Dataset (In-built)
+# =========================
+data = {
+    'study_hours': [1,2,3,4,5,6,2,3,5,7],
+    'attendance': [50,60,65,70,80,90,55,68,85,95],
+    'marks': [30,35,40,50,60,70,38,45,65,80],
+    'result': [0,0,0,1,1,1,0,1,1,1]  # 0 = Fail, 1 = Pass
+}
+
+df = pd.DataFrame(data)
+
+# =========================
+# 🤖 Model Training
+# =========================
+X = df[['study_hours', 'attendance', 'marks']]
+y = df['result']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# =========================
+# 📈 Accuracy Check
+# =========================
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print("Model Accuracy:", round(accuracy * 100, 2), "%")
+
+# =========================
+# 🧑 User Input
+# =========================
+print("\nEnter student details:")
+study_hours = int(input("Study Hours: "))
+attendance = int(input("Attendance (%): "))
+marks = int(input("Marks: "))
+
+# =========================
+# 🔮 Prediction
+# =========================
+prediction = model.predict([[study_hours, attendance, marks]])
+
+print("\nResult:")
+if prediction[0] == 1:
+    print("PASS (Low Risk)")
+else:
+    print("FAIL (High Risk)")
+
+# =========================
+# 🧾 End
+# =========================# Auto detect text files and perform LF normalization
 * text=auto
